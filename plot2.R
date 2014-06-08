@@ -1,0 +1,16 @@
+plot2<-function(date1="",date2="",file_name=""){
+  
+  ##reads the data
+  data<-read.table(file_name,sep=";",na.string="?",header=TRUE)
+  ##the fomat of the parameter data is YYYY-MM-DD
+  ##subset the data for the 2 given dates
+  sub_data<-subset(data,as.Date(data$Date,format="%d/%m/%Y")==date1| as.Date(data$Date,format="%d/%m/%Y")==date2)
+  
+  ##reate the plot of type line, paste the data an time together so that the x axis is split into 3 days
+  plot(strptime(paste(sub_data$Date,sub_data$Time),"%d/%m/%Y %H:%M"),sub_data$Global_active_power , type="l",xlab="",ylab="Global Active Power(kilowatts)") 
+  
+  ##copy the istogram from the screen device into a png with given height and width
+  dev.copy(png,"plot2.png",height=480,width=480)
+  ##turn off the png device
+  dev.off()
+}
